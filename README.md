@@ -19,7 +19,7 @@ SyllableSense is an open-source web app for recording and playback of syllables 
 
 2. **Run the localhost server:** Run the server.py file to run the localhost python server:<br>
 `python server.py`<br>
-Open the web app at http://localhost:8089/
+Open the web app at localhost with port 8089
 
 3. **Record Syllables:** Click the record button and speak the desired word.
 
