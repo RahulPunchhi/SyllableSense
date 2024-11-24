@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SyllableSense</title>
+    <style>
+      /* Container for centering the iframe */
+      .iframe-container {
+        display: flex; /* Enable flexbox */
+        justify-content: center; /* Center horizontally */
+      }
+
+      iframe {
+        border: none; /* Optional: Remove iframe border */
+        width: 900px;
+        height: 80px;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css"
+    />
+    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+
+    <script>
+      function myFunction(rownum) {
+        var device = navigator.mediaDevices.getUserMedia({ audio: true });
+        var items = [];
+
+        device.then((stream) => {
+          var recorder = new MediaRecorder(stream);
+          recorder.ondataavailable = (e) => {
+            items.push(e.data);
+
+            if (recorder.state == "inactive") {
+              var blob = new Blob(items, { type: "audio/mp4" });
+              var audio = document.getElementById("audio" + rownum);
+              var mainaudio = document.createElement("audio");
+              mainaudio.setAttribute("controls", "controls");
+              console.log(audio.children.length);
+              audio.replaceChildren(mainaudio);
+              mainaudio.innerHTML =
+                '<source src="' +
+                URL.createObjectURL(blob) +
+                '"type="video/mp4"/>';
+            }
+          };
+
+          var rec_stop_btn = document.getElementById("rec_stop_" + rownum);
+          temp = rec_stop_btn.children[0].innerText;
+
+          if (temp == "REC") {
+            rec_stop_btn.children[0].innerText = "STOP";
+            recorder.start();
+
+            rec_stop_btn.onclick = function () {
+              rec_stop_btn.children[0].innerText = "REC";
+              recorder.stop();
+              rec_stop_btn.setAttribute(
+                "onclick",
+                "javascript: myFunction(" + rownum + ");"
+              );
+            };
+          }
+        });
+      }
+
+      function load_json_file(file_name, titleVal) {
+        let $table = $("#tblWords");
+        $table.bootstrapTable("refreshOptions", { url: file_name });
+
+        let $tabletitle = document.getElementById("tblWordsTitle");
+        $tabletitle.innerText = titleVal;
+      }
+
+      function clearAudioDivs() {
+        const audioDivs = document.querySelectorAll("div[id^='audio']");
+        console.log(audioDivs);
+        audioDivs.forEach(function (div) {
+          div.innerHTML = "";
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="jumbotron text-center">
+      <h1>SyllableSense</h1>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="3syll"
+        onclick="load_json_file('data_3_syll.json', '3 Syllable Words')"
+      >
+        3 Syllables
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="4syll"
+        onclick="load_json_file('data_4_syll.json', '4 Syllable Words')"
+      >
+        4 Syllables
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="thword"
+        onclick="load_json_file('data_th.json', 'Th-Sound Words')"
+      >
+        Th Words
+      </button>
+    </div>
+    <div class="iframe-container">
+      <iframe src="intro.xhtml"> </iframe>
+    </div>
+
+    <div class="container text-center">
+      <h2 id="tblWordsTitle">Th-Sound Words</h2>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="delete"
+        onclick="clearAudioDivs()"
+      >
+        CLEAR ALL RECORDINGS
+      </button>
+      <table id="tblWords" data-toggle="table" data-url="data_th.json">
+        <thead>
+          <tr>
+            <th class="text-center" data-field="word">Word</th>
+            <th class="text-center" data-field="syllable1">Syllable 1</th>
+            <th class="text-center" data-field="syllable2">Syllable 2</th>
+            <th class="text-center" data-field="syllable3">Syllable 3</th>
+            <th class="text-center" data-field="syllable4">Syllable 4</th>
+            <th class="text-center" data-field="syllable5">Syllable 5</th>
+            <th class="text-center" data-field="RECORD">PLAYBACK</th>
+            <th class="text-center" data-field="PLAY">AUDIO RECORDING</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </body>
+</html>
