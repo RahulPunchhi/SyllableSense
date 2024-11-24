@@ -14,11 +14,11 @@ SyllableSense is an open-source web app for recording and playback of syllables 
 
 **How to Use:**
 
-1. **Populate the Word Collection:** Run the datagen.py file to populate the collection of words:
-python datagen.py
+1. **Populate the Word Collection:** Run the datagen.py file to populate the collection of words:<br>
+`python datagen.py`
 
-2. **Run the localhost server:** Run the server.py file to run the localhost python server:
-python server.py
+2. **Run the localhost server:** Run the server.py file to run the localhost python server:<br>
+`python server.py`<br>
 Open the web app at http://localhost:8089/
 
 3. **Record Syllables:** Click the record button and speak the desired word.
