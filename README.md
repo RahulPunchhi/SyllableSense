@@ -26,3 +26,5 @@ Open the web app at http://localhost:8089/
 4. **Playback Recordings:** Click the play button to listen to your recording.
 
 5. **Practice Regularly:** Use the app to practice syllables consistently.
+
+![Model](https://github.com/RahulPunchhi/SyllableSense/blob/main/SyllableSense.png)
